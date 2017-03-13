@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>exercice 2 partie 4</title>
+</head>
+<body>
+  <form class="" action="index.html" method="post">
+    <input type="text" name="" value="" placeholder="votre salaire :" id="salary"> <br/>
+    <input type="radio" name="sex" value="" id="wife">femme <br/>
+    <input type="radio" name="sex" value="" id="man">homme <br/>
+    <input type="radio" name="enfant" value="" id="three">3 enfants<br/>
+    <input type="radio" name="enfant" value="" id="four">4 enfants<br/>
+    <button type="button" name="button" id="calcul">calcul</button>
+    <p id="show"></p>
+  </form>
+  <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous">
+  </script>
+  <script>
+  /*Demander à l'aide d'un formulaire le salaire d'une personne,
+  son genre et son nombre d'enfants.
+  Calculer le salaire en décomptant les frais suivants:
+  Charges : 18 %;
+  Assurance : 7%;
+  Cotisations : 5%;
+  Il est possible de recevoir des réductions sur les frais totaux sous certaines conditions :
+  Si l'employé est une femme, elle reçoit 2% de réduction.
+  Si l'employé a 3 enfants à charge, il reçoit 1% de réduction.
+  Si l'employé a 4 enfants à charge, il reçoit 2% de réduction.*/
+  $(document).ready(function(){
+    var load = 0.18;
+    var insurance = 0.07;
+    var contribution = 0.05;
+    //au click on va recuperé le salaire
+    $('#calcul').click(function(){
+      if ($.isNumeric($('#salary').val())&&($('#salary').val()>=0)){
+        var wage = $('#salary').val();
+        //puis on va lui apliquer les decompte de frais
+        var fee = ((wage * load) + (wage * insurance) + (wage * contribution));
+        //donne des conditions femme 2% ou homme 4 enfants 2%
+        var reduce = 0;
+        //  console.log($('#wife:radio:checked'));
+        if ($('#wife:radio:checked').length){
+          reduce += fee * 0.02;
+          //console.log('c\'est une femme')
+        }// donne codition 3 efants 1%
+        if($('#three:radio:checked').length){
+          reduce += fee * 0.01;
+          //donne condition  4 enfants 2%
+        }
+        if ($('#four:radio:checked').length){
+          reduce += fee * 0.02;
+        }
+        var result = wage - (fee - reduce);
+        $('#show').text(result);
+      }else {
+        alert('Veuillez entrer un salaire valide');
+      }
+    });
+  });
+  </script>
+</body>
+</html>
